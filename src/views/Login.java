@@ -19,7 +19,7 @@ public class Login extends javax.swing.JFrame {
         int result = 0;
         String cc = String.valueOf(txtCCTeacher.getText());
         String pass = String.valueOf(txtPwordTeacher.getPassword());
-        String SQL = "SELECT id FROM teacher WHERE cc='"+cc+"' AND password='"+pass+"'";
+        String SQL = "SELECT id, fullname FROM teacher WHERE cc='"+cc+"' AND password='"+pass+"'";
         
         try {
             cn=con.getConnection();
@@ -30,9 +30,11 @@ public class Login extends javax.swing.JFrame {
                 
                 if (result == 1){
                     String teacher_id= rs.getString("id");
+                    String teacher_fullname= rs.getString("fullname");
                     
                     MainTeacher form = new MainTeacher();
                     form.set_teacher_id(teacher_id);
+                    form.set_teacher_fullname(teacher_fullname);
                     form.f_list();
                     form.setVisible(true);
                     this.dispose();
@@ -52,7 +54,7 @@ public class Login extends javax.swing.JFrame {
         int result = 0;
         String cc = String.valueOf(txtCCStudent.getText());
         String pass = String.valueOf(txtPwordStudent.getPassword());
-        String SQL = "SELECT * FROM students WHERE identification_number='"+cc+"' AND password='"+pass+"'";
+        String SQL = "SELECT id, fullname FROM students WHERE identification_number='"+cc+"' AND password='"+pass+"'";
         
         try {
             cn=con.getConnection();
@@ -63,7 +65,12 @@ public class Login extends javax.swing.JFrame {
                 result = 1;
                 
                 if (result == 1){
+                    String student_id= rs.getString("id");
+                    String student_fullname= rs.getString("fullname");
+                    
                     MainStudent form = new MainStudent();
+                    form.set_student_id(student_id);
+                    form.set_student_fullname(student_fullname);
                     form.setVisible(true);
                     this.dispose();
                 }
