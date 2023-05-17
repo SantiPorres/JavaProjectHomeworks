@@ -28,7 +28,7 @@ public class HomeworkTeacher extends javax.swing.JFrame {
         initComponents();
     }
 
-    public void set_homework_tittle(String main_homework_code) {
+    public void set_homework_code(String main_homework_code) {
         homework_code = main_homework_code;
     }
     

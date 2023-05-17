@@ -279,7 +279,7 @@ public class MainTeacher extends javax.swing.JFrame {
 
     private void btnOpenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOpenActionPerformed
         HomeworkTeacher form = new HomeworkTeacher();
-        form.set_homework_tittle(homework_code);
+        form.set_homework_code(homework_code);
         form.setVisible(true);
         form.get_homework_fields();
     }//GEN-LAST:event_btnOpenActionPerformed
@@ -388,7 +388,6 @@ public class MainTeacher extends javax.swing.JFrame {
                 }
 
             } catch (SQLException e) {
-                System.out.println("get_course_id");
                 JOptionPane.showMessageDialog(null, "Error al ejecutar la consulta SQL: " + e.getMessage());
                 e.printStackTrace();
             }
@@ -408,9 +407,9 @@ public class MainTeacher extends javax.swing.JFrame {
             try {
                 cn=con.getConnection();
                 st=cn.createStatement();
-                int rowsAffected=st.executeUpdate(SQL);
+                int rows_affected=st.executeUpdate(SQL);
                 
-                if (rowsAffected > 0) {
+                if (rows_affected > 0) {
                     JOptionPane.showMessageDialog(null, "Tarea creada correctamente");
                 } else {
                     JOptionPane.showMessageDialog(null, "La tarea no se pudo crear");

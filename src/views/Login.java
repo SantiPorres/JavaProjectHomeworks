@@ -54,7 +54,7 @@ public class Login extends javax.swing.JFrame {
         int result = 0;
         String cc = String.valueOf(txtCCStudent.getText());
         String pass = String.valueOf(txtPwordStudent.getPassword());
-        String SQL = "SELECT id, fullname FROM students WHERE identification_number='"+cc+"' AND password='"+pass+"'";
+        String SQL = "SELECT id, course_id, fullname FROM students WHERE identification_number='"+cc+"' AND password='"+pass+"'";
         
         try {
             cn=con.getConnection();
@@ -66,12 +66,15 @@ public class Login extends javax.swing.JFrame {
                 
                 if (result == 1){
                     String student_id= rs.getString("id");
+                    String course_id= rs.getString("course_id");
                     String student_fullname= rs.getString("fullname");
                     
                     MainStudent form = new MainStudent();
                     form.set_student_id(student_id);
                     form.set_student_fullname(student_fullname);
+                    form.set_course_id(course_id);
                     form.setVisible(true);
+                    form.f_list();
                     this.dispose();
                 }
                 
