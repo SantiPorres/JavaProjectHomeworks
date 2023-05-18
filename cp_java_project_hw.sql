@@ -2,7 +2,7 @@
 --
 -- Host: localhost    Database: java_project_hw
 -- ------------------------------------------------------
--- Server version	8.0.33-0ubuntu0.22.04.1
+-- Server version	8.0.33-0ubuntu0.22.04.2
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -56,7 +56,9 @@ CREATE TABLE `grade` (
   `id` bigint NOT NULL AUTO_INCREMENT,
   `homework_code` bigint NOT NULL,
   `student_id` bigint NOT NULL,
-  `score` float NOT NULL,
+  `score` float DEFAULT '0',
+  `status` enum('pending','qualified') NOT NULL DEFAULT 'pending',
+  `homework_solution` varchar(255) NOT NULL,
   `appreciation` varchar(255) DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
@@ -65,7 +67,7 @@ CREATE TABLE `grade` (
   KEY `student_id` (`student_id`),
   CONSTRAINT `grade_ibfk_1` FOREIGN KEY (`homework_code`) REFERENCES `homeworks` (`code`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `grade_ibfk_2` FOREIGN KEY (`student_id`) REFERENCES `students` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -74,6 +76,7 @@ CREATE TABLE `grade` (
 
 LOCK TABLES `grade` WRITE;
 /*!40000 ALTER TABLE `grade` DISABLE KEYS */;
+INSERT INTO `grade` VALUES (2,2,1,4.2,'qualified','www.drive-tarea.com',NULL,'2023-05-17 01:54:37','2023-05-17 13:24:32'),(4,3,1,2.4,'qualified','1- 108432\nEsta es la respuesta',NULL,'2023-05-17 02:34:37','2023-05-17 21:10:55'),(5,4,1,0,'pending','www.unity.com',NULL,'2023-05-17 16:52:46','2023-05-17 12:48:04'),(6,2,2,2.1,'qualified','www.jose-armando-homework.com/https/hsopdiasjsonssdodjakjalsaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',NULL,'2023-05-17 21:53:21','2023-05-17 17:39:28'),(7,5,2,4.3,'qualified','www.drive-funciones-python.com',NULL,'2023-05-18 02:08:02','2023-05-17 21:09:54');
 /*!40000 ALTER TABLE `grade` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -97,7 +100,7 @@ CREATE TABLE `homeworks` (
   PRIMARY KEY (`code`),
   KEY `course_id` (`course_id`),
   CONSTRAINT `homeworks_ibfk_1` FOREIGN KEY (`course_id`) REFERENCES `course` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -106,7 +109,7 @@ CREATE TABLE `homeworks` (
 
 LOCK TABLES `homeworks` WRITE;
 /*!40000 ALTER TABLE `homeworks` DISABLE KEYS */;
-INSERT INTO `homeworks` VALUES (1,1,'Sumas','Realizar las siguientes sumas','2023-05-13','','active','2023-05-12 15:28:06','2023-05-12 10:28:06'),(2,1,'Restas','Hacer las siguientes 10 restas','2023-05-12','www.google.com','active','2023-05-12 15:46:03','2023-05-12 10:46:03');
+INSERT INTO `homeworks` VALUES (1,1,'Sumas','Realizar las siguientes sumas','2023-05-13','','active','2023-05-12 15:28:06','2023-05-12 10:28:06'),(2,1,'Restas','Hacer las siguientes 10 restas','2023-05-30','www.google.com','active','2023-05-12 15:46:03','2023-05-17 16:52:21'),(3,1,'Multiplicaciones','Resuelvan estas multiplicaciones en casa','2023-05-18','www.holamundo.com','active','2023-05-17 02:32:48','2023-05-16 21:32:48'),(4,1,'Divisiones','Realizar las siguientes divisiones','2023-05-26','','active','2023-05-17 16:39:50','2023-05-17 11:39:50'),(5,1,'Funciones en python','Muy buenos dias muchachos, les adjunto el archivo de las 50 funciones en python que estabamos realizando en clase.\n\nPorfavor terminarlas y subirlas a esta evidencia.\n\nFeliz noche para todos.','2023-05-25','https://www.w3schools.com/sql/sql_join_inner.asp','active','2023-05-17 23:24:07','2023-05-17 18:24:07'),(6,1,'Funciones Java','','2023-05-17','https://www.google.com/search?channel=fs&client=ubuntu-sn&q=json+es+un+lenguaje%3F','active','2023-05-17 23:27:13','2023-05-17 18:27:13'),(7,1,'Funciones PHP','Hacer las siguientes funciones','2023-05-25','- https://www.google.com/search?channel=fs&client=ubuntu-sn&q=translate','active','2023-05-17 23:35:05','2023-05-17 18:35:05'),(8,1,'Funciones C#','','2023-05-17','https://www.google.com/search?channel=fs&client=ubuntu-sn&q=translate','active','2023-05-17 23:35:38','2023-05-17 18:35:38');
 /*!40000 ALTER TABLE `homeworks` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -131,7 +134,7 @@ CREATE TABLE `students` (
   UNIQUE KEY `identification_number` (`identification_number`),
   KEY `course_id` (`course_id`),
   CONSTRAINT `students_ibfk_1` FOREIGN KEY (`course_id`) REFERENCES `course` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -140,7 +143,7 @@ CREATE TABLE `students` (
 
 LOCK TABLES `students` WRITE;
 /*!40000 ALTER TABLE `students` DISABLE KEYS */;
-INSERT INTO `students` VALUES (1,1,'0987456123','Andres Russo','geraldine@email.com','geraldine123','active','2023-05-12 15:26:16','2023-05-12 10:26:16');
+INSERT INTO `students` VALUES (1,1,'456','Geraldine Russo','geraldine@email.com','456','active','2023-05-12 15:26:16','2023-05-17 07:50:57'),(2,1,'123','Jose Armando','jose@email.com','123','active','2023-05-17 17:00:39','2023-05-17 12:00:39');
 /*!40000 ALTER TABLE `students` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -184,4 +187,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-05-13 10:37:13
+-- Dump completed on 2023-05-17 21:31:21
