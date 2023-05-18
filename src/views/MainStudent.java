@@ -15,7 +15,8 @@ public class MainStudent extends javax.swing.JFrame {
     Connection cn;
     Statement st;
     ResultSet rs;
-    DefaultTableModel modelo;
+    DefaultTableModel modelo1;
+    DefaultTableModel modelo2;
     String student_id;
     String student_fullname;
     String course_id;
@@ -26,6 +27,7 @@ public class MainStudent extends javax.swing.JFrame {
         initComponents();
         setLocationRelativeTo(null);
         btnOpen.setEnabled(false);
+        btnOpen2.setEnabled(false);
     }
     
     public void set_student_id(String login_student_id) {
@@ -52,6 +54,12 @@ public class MainStudent extends javax.swing.JFrame {
         PendingHomeworksTable = new javax.swing.JTable();
         btnOpen = new javax.swing.JButton();
         btnClean = new javax.swing.JButton();
+        jPanel4 = new javax.swing.JPanel();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        RealizedHomeworksTable = new javax.swing.JTable();
+        btnClose = new javax.swing.JButton();
+        btnClean2 = new javax.swing.JButton();
+        btnOpen2 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -117,26 +125,99 @@ public class MainStudent extends javax.swing.JFrame {
             }
         });
 
+        jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder("Tareas enviadas:"));
+
+        RealizedHomeworksTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Código", "Tarea", "Nota"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        RealizedHomeworksTable.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                RealizedHomeworksTableMouseClicked(evt);
+            }
+        });
+        jScrollPane4.setViewportView(RealizedHomeworksTable);
+
+        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
+        jPanel4.setLayout(jPanel4Layout);
+        jPanel4Layout.setHorizontalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 352, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel4Layout.setVerticalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 134, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
+        btnClose.setText("CERRAR");
+        btnClose.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCloseActionPerformed(evt);
+            }
+        });
+
+        btnClean2.setText("LIMPIAR");
+        btnClean2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnClean2ActionPerformed(evt);
+            }
+        });
+
+        btnOpen2.setText("ABRIR");
+        btnOpen2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnOpen2ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(16, 16, 16)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(9, 9, 9)
-                        .addComponent(jLabel5)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtStudentName)))
-                .addContainerGap(16, Short.MAX_VALUE))
             .addGroup(layout.createSequentialGroup()
                 .addGap(30, 30, 30)
                 .addComponent(btnClean)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(btnOpen)
                 .addGap(25, 25, 25))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(16, 16, 16)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(9, 9, 9)
+                        .addComponent(jLabel5)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtStudentName))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(14, 14, 14)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(btnClose)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(btnClean2)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(btnOpen2)
+                                .addGap(9, 9, 9)))))
+                .addContainerGap(16, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -151,7 +232,15 @@ public class MainStudent extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnOpen)
                     .addComponent(btnClean))
-                .addContainerGap(52, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnOpen2)
+                    .addComponent(btnClean2))
+                .addGap(18, 18, 18)
+                .addComponent(btnClose)
+                .addContainerGap(16, Short.MAX_VALUE))
         );
 
         pack();
@@ -167,6 +256,24 @@ public class MainStudent extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_PendingHomeworksTableMouseClicked
 
+    private void btnCleanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCleanActionPerformed
+        clean_fields_pending();
+    }//GEN-LAST:event_btnCleanActionPerformed
+
+    private void RealizedHomeworksTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_RealizedHomeworksTableMouseClicked
+        btnOpen2.setEnabled(true);
+        selected_row = RealizedHomeworksTable.getSelectedRow();
+        if (selected_row == -1) {
+            JOptionPane.showMessageDialog(null, "Tarea no seleccionada");
+        } else {
+            homework_code = (String)RealizedHomeworksTable.getValueAt(selected_row, 0);
+        }
+    }//GEN-LAST:event_RealizedHomeworksTableMouseClicked
+
+    private void btnCloseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCloseActionPerformed
+        this.dispose();
+    }//GEN-LAST:event_btnCloseActionPerformed
+
     private void btnOpenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOpenActionPerformed
         PendingHomeworkStudent form = new PendingHomeworkStudent();
         form.set_homework_code(homework_code);
@@ -177,9 +284,19 @@ public class MainStudent extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_btnOpenActionPerformed
 
-    private void btnCleanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCleanActionPerformed
-        clean_fields();
-    }//GEN-LAST:event_btnCleanActionPerformed
+    private void btnClean2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClean2ActionPerformed
+        clean_fields_realized();
+    }//GEN-LAST:event_btnClean2ActionPerformed
+
+    private void btnOpen2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOpen2ActionPerformed
+        RealizedHomeworkStudent form = new RealizedHomeworkStudent();
+        form.set_homework_code(homework_code);
+        form.set_student_id(student_id);
+        form.set_student_fullname(student_fullname);
+        form.setVisible(true);
+        form.get_homework_fields();
+        this.dispose();
+    }//GEN-LAST:event_btnOpen2ActionPerformed
 /****/
     
     public static void main(String args[]) {
@@ -217,61 +334,97 @@ public class MainStudent extends javax.swing.JFrame {
     
     public void f_list() {
         
-        
         String SQL = "SELECT code, tittle, deadline FROM homeworks h WHERE h.code "
                 + "NOT IN (SELECT homework_code FROM grade WHERE student_id='"+student_id+"')";
+        
+        String SQL2 = "SELECT h.code, h.tittle, g.score, g.status "
+             + "FROM homeworks h "
+             + "INNER JOIN grade g ON h.code = g.homework_code "
+             + "WHERE g.student_id = '" + student_id + "'";
         
         try {
             cn=con.getConnection();
             st=cn.createStatement();
             rs=st.executeQuery(SQL);
-            clean_table();
+            
             Object[]homework=new Object[3];
-            modelo=(DefaultTableModel)PendingHomeworksTable.getModel();
+            modelo1=(DefaultTableModel)PendingHomeworksTable.getModel();
+            modelo1.setRowCount(0);
             while (rs.next()) {
                 homework[0]=rs.getString("code");
                 homework[1]=rs.getString("tittle");
                 homework[2]=rs.getString("deadline");
-                modelo.addRow(homework);
+                modelo1.addRow(homework);
             }
-            PendingHomeworksTable.setModel(modelo);
+            PendingHomeworksTable.setModel(modelo1);
+            
+            cn=con.getConnection();
+            st=cn.createStatement();
+            rs=st.executeQuery(SQL2);
+            
+            Object[]homeworkR=new Object[3];
+            modelo2=(DefaultTableModel)RealizedHomeworksTable.getModel();
+            modelo2.setRowCount(0);
+            
+            while (rs.next()) {
+                homeworkR[0]=rs.getString("code");
+                homeworkR[1]=rs.getString("tittle");
+                if (rs.getString("status").equals("pending")) {
+                    homeworkR[2]="Pendiente";
+                } else {
+                    homeworkR[2]=rs.getFloat("score");
+                }
+                
+                modelo2.addRow(homeworkR);
+            }            
+            RealizedHomeworksTable.setModel(modelo2);
             
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "Error al ejecutar la consulta SQL: " + e.getMessage());
             e.printStackTrace();
-        } finally {
-            try {
-                if (rs != null) rs.close();
-                if (st != null) st.close();
-                if (cn != null) cn.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
         }
     }
     
     public void clean_table() {
-        int rowCount = PendingHomeworksTable.getRowCount();
-        if (rowCount != 0) {
-            for (int i = rowCount-1; i>=0; i--) {
-                modelo.removeRow(i);
+        int row_count = PendingHomeworksTable.getRowCount();
+        if (row_count != 0) {
+            for (int i = row_count-1; i>=0; i--) {
+                modelo1.removeRow(i);
+            }
+        }
+        
+        int row_count2 = RealizedHomeworksTable.getRowCount();
+        if (row_count2 != 0) {
+            for (int i = row_count2-1; i>=0; i--) {
+                modelo2.removeRow(i);
             }
         }
         
     }
     
-    public void clean_fields() {
+    public void clean_fields_pending() {
         btnOpen.setEnabled(false);
         PendingHomeworksTable.clearSelection();
+    }
+    
+    public void clean_fields_realized() {
+        btnOpen2.setEnabled(false);
+        RealizedHomeworksTable.clearSelection();
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTable PendingHomeworksTable;
+    private javax.swing.JTable RealizedHomeworksTable;
     private javax.swing.JButton btnClean;
+    private javax.swing.JButton btnClean2;
+    private javax.swing.JButton btnClose;
     private javax.swing.JButton btnOpen;
+    private javax.swing.JButton btnOpen2;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JLabel txtStudentName;
     // End of variables declaration//GEN-END:variables
 }

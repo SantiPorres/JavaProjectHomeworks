@@ -1,4 +1,7 @@
-
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
+ */
 package views;
 
 import config.Conexion;
@@ -14,7 +17,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
-public class PendingHomeworkStudent extends javax.swing.JFrame {
+public class RealizedHomeworkStudent extends javax.swing.JFrame {
 
     Conexion con = new Conexion();
     Connection cn;
@@ -32,14 +35,14 @@ public class PendingHomeworkStudent extends javax.swing.JFrame {
     String course_id;
     Date date_now;
     
-    public PendingHomeworkStudent() {
+    public RealizedHomeworkStudent() {
         initComponents();
         setLocationRelativeTo(null);
         DateFormat dateFormat = new SimpleDateFormat("MMM d, y");
         try {
             date_now = dateFormat.parse(dateFormat.format(new Date()));
         } catch (ParseException ex) {
-            Logger.getLogger(PendingHomeworkStudent.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(RealizedHomeworkStudent.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     
@@ -113,10 +116,6 @@ public class PendingHomeworkStudent extends javax.swing.JFrame {
         txtResource = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         btnClose = new javax.swing.JButton();
-        jLabel7 = new javax.swing.JLabel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        txtSolution = new javax.swing.JTextArea();
-        btnReply = new javax.swing.JButton();
         jLabel8 = new javax.swing.JLabel();
         txtStudentName = new javax.swing.JLabel();
 
@@ -155,20 +154,6 @@ public class PendingHomeworkStudent extends javax.swing.JFrame {
             }
         });
 
-        jLabel7.setText("Aqui tu respuesta a la tarea");
-
-        txtSolution.setColumns(20);
-        txtSolution.setLineWrap(true);
-        txtSolution.setRows(5);
-        jScrollPane1.setViewportView(txtSolution);
-
-        btnReply.setText("RESPONDER");
-        btnReply.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnReplyActionPerformed(evt);
-            }
-        });
-
         jLabel8.setFont(new java.awt.Font("Liberation Sans", 0, 10)); // NOI18N
         jLabel8.setText("Estudiante:");
 
@@ -183,41 +168,34 @@ public class PendingHomeworkStudent extends javax.swing.JFrame {
                 .addGap(48, 48, 48)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(btnReply, javax.swing.GroupLayout.PREFERRED_SIZE, 301, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(jLabel3)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtDescription, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jLabel3)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(txtDescription, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addComponent(jLabel5)
+                                .addGap(26, 26, 26)
+                                .addComponent(txtDeadline))
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addComponent(jLabel5)
-                                        .addGap(26, 26, 26)
-                                        .addComponent(txtDeadline))
-                                    .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addComponent(jLabel4)
-                                        .addGap(26, 26, 26)
-                                        .addComponent(txtCreated_At))
-                                    .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addComponent(jLabel2)
-                                        .addGap(26, 26, 26)
-                                        .addComponent(txtCode))
-                                    .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addComponent(jLabel1)
-                                        .addGap(26, 26, 26)
-                                        .addComponent(txtTittle))
-                                    .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addComponent(jLabel6)
-                                        .addGap(26, 26, 26)
-                                        .addComponent(txtResource))
-                                    .addComponent(jLabel7)
-                                    .addComponent(btnClose)
-                                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 301, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(0, 33, Short.MAX_VALUE)))
-                        .addGap(18, 18, 18))))
+                                .addComponent(jLabel4)
+                                .addGap(26, 26, 26)
+                                .addComponent(txtCreated_At))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jLabel2)
+                                .addGap(26, 26, 26)
+                                .addComponent(txtCode))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jLabel1)
+                                .addGap(26, 26, 26)
+                                .addComponent(txtTittle))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jLabel6)
+                                .addGap(26, 26, 26)
+                                .addComponent(txtResource))
+                            .addComponent(btnClose))
+                        .addGap(0, 42, Short.MAX_VALUE)))
+                .addGap(18, 18, 18))
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(34, 34, 34)
                 .addComponent(jLabel8)
@@ -256,15 +234,9 @@ public class PendingHomeworkStudent extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtDeadline)
                     .addComponent(jLabel5))
-                .addGap(37, 37, 37)
-                .addComponent(jLabel7)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(btnReply)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 19, Short.MAX_VALUE)
+                .addGap(95, 95, 95)
                 .addComponent(btnClose)
-                .addGap(16, 16, 16))
+                .addContainerGap(30, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -275,7 +247,7 @@ public class PendingHomeworkStudent extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
         pack();
@@ -290,16 +262,6 @@ public class PendingHomeworkStudent extends javax.swing.JFrame {
         form.f_list();
         this.dispose();
     }//GEN-LAST:event_btnCloseActionPerformed
-
-    private void btnReplyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReplyActionPerformed
-        String homework_solution = txtSolution.getText();
-        
-        if (homework_solution.equals("")) {
-            JOptionPane.showMessageDialog(null, "Debe completar el campo");
-        } else {
-            verify_homework_deadline(homework_solution);
-        }
-    }//GEN-LAST:event_btnReplyActionPerformed
 
     
     public static void main(String args[]) {
@@ -316,21 +278,23 @@ public class PendingHomeworkStudent extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(PendingHomeworkStudent.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(RealizedHomeworkStudent.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(PendingHomeworkStudent.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(RealizedHomeworkStudent.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(PendingHomeworkStudent.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(RealizedHomeworkStudent.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(PendingHomeworkStudent.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(RealizedHomeworkStudent.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new PendingHomeworkStudent().setVisible(true);
+                new RealizedHomeworkStudent().setVisible(true);
             }
         });
     }
@@ -390,24 +354,20 @@ public class PendingHomeworkStudent extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnClose;
-    private javax.swing.JButton btnReply;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JLabel txtCode;
     private javax.swing.JLabel txtCreated_At;
     private javax.swing.JLabel txtDeadline;
     private javax.swing.JLabel txtDescription;
     private javax.swing.JLabel txtResource;
-    private javax.swing.JTextArea txtSolution;
     private javax.swing.JLabel txtStudentName;
     private javax.swing.JLabel txtTittle;
     // End of variables declaration//GEN-END:variables

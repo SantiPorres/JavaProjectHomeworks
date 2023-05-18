@@ -73,8 +73,8 @@ public class Login extends javax.swing.JFrame {
                     form.set_student_id(student_id);
                     form.set_student_fullname(student_fullname);
                     form.set_course_id(course_id);
-                    form.setVisible(true);
                     form.f_list();
+                    form.setVisible(true);
                     this.dispose();
                 }
                 
