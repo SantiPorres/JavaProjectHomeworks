@@ -276,6 +276,7 @@ public class MainTeacher extends javax.swing.JFrame {
     private void btnOpenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOpenActionPerformed
         HomeworkTeacher form = new HomeworkTeacher();
         form.set_homework_code(homework_code);
+        form.set_teacher_fullname(teacher_fullname);
         form.f_list();
         form.setVisible(true);
         form.get_homework_fields();
