@@ -22,6 +22,7 @@ public class MainStudent extends javax.swing.JFrame {
     String course_id;
     int selected_row;
     String homework_code;
+    String homework_score;
     
     public MainStudent() {
         initComponents();
@@ -293,8 +294,10 @@ public class MainStudent extends javax.swing.JFrame {
         form.set_homework_code(homework_code);
         form.set_student_id(student_id);
         form.set_student_fullname(student_fullname);
-        form.setVisible(true);
+        form.get_grade_score_appreciation_status();
         form.get_homework_fields();
+        form.set_frame_fields();
+        form.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_btnOpen2ActionPerformed
 /****/

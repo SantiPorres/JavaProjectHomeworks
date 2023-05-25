@@ -9,12 +9,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 public class RealizedHomeworkStudent extends javax.swing.JFrame {
@@ -25,6 +20,10 @@ public class RealizedHomeworkStudent extends javax.swing.JFrame {
     ResultSet rs;
     
     String homework_code;
+    Float homework_score;
+    String homework_appreciation;
+    String homework_status;
+    
     String tittle;
     String description;
     Date deadline;
@@ -33,17 +32,10 @@ public class RealizedHomeworkStudent extends javax.swing.JFrame {
     String student_id;
     String student_fullname;
     String course_id;
-    Date date_now;
     
     public RealizedHomeworkStudent() {
         initComponents();
         setLocationRelativeTo(null);
-        DateFormat dateFormat = new SimpleDateFormat("MMM d, y");
-        try {
-            date_now = dateFormat.parse(dateFormat.format(new Date()));
-        } catch (ParseException ex) {
-            Logger.getLogger(RealizedHomeworkStudent.class.getName()).log(Level.SEVERE, null, ex);
-        }
     }
     
     public void set_student_id(String main_student_id) {
@@ -76,8 +68,6 @@ public class RealizedHomeworkStudent extends javax.swing.JFrame {
                 deadline = rs.getDate("deadline");
                 resource = rs.getString("resource");
                 created_at = rs.getString("created_at");
-                
-                set_homework_fields(tittle, description, deadline, resource, created_at);
             }
             
         } catch (SQLException e) {
@@ -87,13 +77,39 @@ public class RealizedHomeworkStudent extends javax.swing.JFrame {
         
     }
     
-    public void set_homework_fields(String tittle, String description, Date deadline, String resource, String created_at) {
+    public void get_grade_score_appreciation_status() {
+        String SQL = "SELECT score, appreciation, status FROM grade WHERE homework_code='"+homework_code+"' "
+                + "AND student_id='"+student_id+"'";
+        try {
+            cn=con.getConnection();
+            st=cn.createStatement();
+            rs=st.executeQuery(SQL);
+            
+            if (rs.next()) {
+                homework_score = rs.getFloat("score");
+                homework_appreciation = rs.getString("appreciation");
+                homework_status = rs.getString("status");
+            }
+            
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Error al ejecutar la consulta SQL: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+    
+    public void set_frame_fields() {
         txtCode.setText(homework_code);
         txtTittle.setText(tittle);
         txtDescription.setText(description);
         txtResource.setText(resource);
         txtDeadline.setText(String.valueOf(deadline));
         txtCreated_At.setText(created_at);
+        if (homework_status.equals("pending")) {
+            txtScore.setText("Pendiente");
+        } else {
+            txtScore.setText(String.valueOf(homework_code));
+        }
+        txtAppreciation.setText(homework_appreciation);
     }
 
     
@@ -103,49 +119,84 @@ public class RealizedHomeworkStudent extends javax.swing.JFrame {
 
         jTextField1 = new javax.swing.JTextField();
         jPanel1 = new javax.swing.JPanel();
-        txtTittle = new javax.swing.JLabel();
-        jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
-        txtCode = new javax.swing.JLabel();
-        txtDescription = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
-        txtCreated_At = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
-        txtDeadline = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
-        txtResource = new javax.swing.JLabel();
-        jLabel6 = new javax.swing.JLabel();
-        btnClose = new javax.swing.JButton();
         jLabel8 = new javax.swing.JLabel();
         txtStudentName = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        txtCode = new javax.swing.JTextField();
+        jLabel1 = new javax.swing.JLabel();
+        txtTittle = new javax.swing.JTextField();
+        jLabel3 = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        txtDescription = new javax.swing.JTextArea();
+        jLabel6 = new javax.swing.JLabel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        txtResource = new javax.swing.JTextArea();
+        jLabel4 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        txtCreated_At = new javax.swing.JTextField();
+        txtDeadline = new javax.swing.JTextField();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        txtAppreciation = new javax.swing.JTextArea();
+        jLabel9 = new javax.swing.JLabel();
+        btnClose = new javax.swing.JButton();
+        txtScore = new javax.swing.JTextField();
 
         jTextField1.setText("jTextField1");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        txtTittle.setText("titulo de la tarea");
+        jLabel8.setFont(new java.awt.Font("Liberation Sans", 0, 10)); // NOI18N
+        jLabel8.setText("Estudiante:");
 
-        jLabel1.setText("Título:");
+        txtStudentName.setFont(new java.awt.Font("Liberation Sans", 0, 10)); // NOI18N
+        txtStudentName.setText("Nombre del estudiante");
+
+        jLabel7.setText("Nota:");
 
         jLabel2.setText("Código:");
 
+        txtCode.setEditable(false);
         txtCode.setText("codigo de la tarea");
 
-        txtDescription.setText("descripcion de la tarea");
+        jLabel1.setText("Título:");
+
+        txtTittle.setEditable(false);
+        txtTittle.setText("titulo de la tarea");
 
         jLabel3.setText("Descripción:");
 
-        txtCreated_At.setText("created_at de la tarea");
+        txtDescription.setEditable(false);
+        txtDescription.setColumns(20);
+        txtDescription.setLineWrap(true);
+        txtDescription.setRows(5);
+        jScrollPane1.setViewportView(txtDescription);
+
+        jLabel6.setText("Recursos:");
+
+        txtResource.setEditable(false);
+        txtResource.setColumns(20);
+        txtResource.setLineWrap(true);
+        txtResource.setRows(5);
+        jScrollPane2.setViewportView(txtResource);
 
         jLabel4.setText("Fecha de creación:");
 
-        txtDeadline.setText("deadline de la tarea");
-
         jLabel5.setText("Fecha limite:");
 
-        txtResource.setText("recursos de la tarea");
+        txtCreated_At.setEditable(false);
+        txtCreated_At.setText("created_at");
 
-        jLabel6.setText("Recursos:");
+        txtDeadline.setEditable(false);
+        txtDeadline.setText("fecha limite");
+
+        txtAppreciation.setEditable(false);
+        txtAppreciation.setColumns(20);
+        txtAppreciation.setLineWrap(true);
+        txtAppreciation.setRows(5);
+        jScrollPane3.setViewportView(txtAppreciation);
+
+        jLabel9.setText("Comentario:");
 
         btnClose.setText("CERRAR");
         btnClose.addActionListener(new java.awt.event.ActionListener() {
@@ -154,54 +205,58 @@ public class RealizedHomeworkStudent extends javax.swing.JFrame {
             }
         });
 
-        jLabel8.setFont(new java.awt.Font("Liberation Sans", 0, 10)); // NOI18N
-        jLabel8.setText("Estudiante:");
-
-        txtStudentName.setFont(new java.awt.Font("Liberation Sans", 0, 10)); // NOI18N
-        txtStudentName.setText("Nombre del estudiante");
+        txtScore.setEditable(false);
+        txtScore.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtScoreActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(48, 48, 48)
+                .addGap(34, 34, 34)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel3)
+                        .addComponent(jLabel8)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtDescription, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(txtStudentName)
+                        .addGap(0, 586, Short.MAX_VALUE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jLabel3)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jLabel5)
-                                .addGap(26, 26, 26)
-                                .addComponent(txtDeadline))
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel2)
+                                    .addComponent(jLabel1))
+                                .addGap(18, 18, 18)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(txtTittle, javax.swing.GroupLayout.PREFERRED_SIZE, 266, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(txtCode, javax.swing.GroupLayout.PREFERRED_SIZE, 266, javax.swing.GroupLayout.PREFERRED_SIZE)))
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(jLabel4)
-                                .addGap(26, 26, 26)
-                                .addComponent(txtCreated_At))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(txtCreated_At, javax.swing.GroupLayout.PREFERRED_SIZE, 197, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jLabel2)
-                                .addGap(26, 26, 26)
-                                .addComponent(txtCode))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jLabel1)
-                                .addGap(26, 26, 26)
-                                .addComponent(txtTittle))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jLabel6)
-                                .addGap(26, 26, 26)
-                                .addComponent(txtResource))
-                            .addComponent(btnClose))
-                        .addGap(0, 42, Short.MAX_VALUE)))
-                .addGap(18, 18, 18))
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(34, 34, 34)
-                .addComponent(jLabel8)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(txtStudentName)
-                .addGap(0, 0, Short.MAX_VALUE))
+                                .addComponent(jLabel5)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(txtDeadline))
+                            .addComponent(jLabel6)
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 334, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel9, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
+                                .addComponent(jLabel7)
+                                .addGap(18, 18, 18)
+                                .addComponent(txtScore, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(btnClose)
+                                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 334, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(34, 34, 34))))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -210,33 +265,43 @@ public class RealizedHomeworkStudent extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel8)
                     .addComponent(txtStudentName))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel2)
+                            .addComponent(txtCode, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel1)
+                            .addComponent(txtTittle, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jLabel3)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel7)
+                            .addComponent(txtScore, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jLabel9)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel6)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel4)
+                    .addComponent(txtCreated_At, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtCode)
-                    .addComponent(jLabel2))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtTittle)
-                    .addComponent(jLabel1))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtDescription, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel3))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtResource)
-                    .addComponent(jLabel6))
-                .addGap(8, 8, 8)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtCreated_At)
-                    .addComponent(jLabel4))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtDeadline)
-                    .addComponent(jLabel5))
-                .addGap(95, 95, 95)
-                .addComponent(btnClose)
-                .addContainerGap(30, Short.MAX_VALUE))
+                    .addComponent(jLabel5)
+                    .addComponent(txtDeadline, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnClose))
+                .addGap(39, 39, 39))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -247,7 +312,9 @@ public class RealizedHomeworkStudent extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 8, Short.MAX_VALUE))
         );
 
         pack();
@@ -262,6 +329,10 @@ public class RealizedHomeworkStudent extends javax.swing.JFrame {
         form.f_list();
         this.dispose();
     }//GEN-LAST:event_btnCloseActionPerformed
+
+    private void txtScoreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtScoreActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtScoreActionPerformed
 
     
     public static void main(String args[]) {
@@ -298,59 +369,6 @@ public class RealizedHomeworkStudent extends javax.swing.JFrame {
             }
         });
     }
-    
-    public void verify_homework_deadline(String homework_solution) {
-        
-        if (date_now.after(deadline)) {
-            JOptionPane.showMessageDialog(null, "La fecha límite de la tarea ya pasó");
-        } else {
-            verify_homework_solution(homework_solution);
-        }
-    }
-    
-    public void verify_homework_solution(String homework_solution) {
-        String SQL = "SELECT homework_solution FROM grade WHERE homework_code='"+homework_code+"' AND student_id='"+student_id+"'";
-        try {
-            cn=con.getConnection();
-            st=cn.createStatement();
-            rs=st.executeQuery(SQL);
-            
-            if (rs.next()) {
-                JOptionPane.showMessageDialog(null, "La tarea ya fue respondida");
-            } else {
-                reply_homework(homework_solution);
-            }
-        } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, "Error al ejecutar la consulta SQL: " + e.getMessage());
-            e.printStackTrace();
-        }
-    }
-    
-    public void reply_homework(String homework_solution) {
-        String SQL = "INSERT INTO grade (homework_code, student_id, homework_solution) "
-                + "VALUES('"+homework_code+"', '"+student_id+"', '"+homework_solution+"')";
-        
-        try {
-            cn=con.getConnection();
-            st=cn.createStatement();
-            int rows_affected = st.executeUpdate(SQL);
-            
-            if (rows_affected > 0) {
-                JOptionPane.showMessageDialog(null, "Tarea respondida satisfactoriamente");
-                MainStudent form = new MainStudent();
-                form.set_student_id(student_id);
-                form.set_student_fullname(student_fullname);
-                form.set_course_id(course_id);
-                form.setVisible(true);
-                form.f_list();
-                this.dispose();
-            }
-            
-        } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, "Error al ejecutar la consulta SQL: " + e.getMessage());
-            e.printStackTrace();
-        }
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnClose;
@@ -360,15 +378,22 @@ public class RealizedHomeworkStudent extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTextField jTextField1;
-    private javax.swing.JLabel txtCode;
-    private javax.swing.JLabel txtCreated_At;
-    private javax.swing.JLabel txtDeadline;
-    private javax.swing.JLabel txtDescription;
-    private javax.swing.JLabel txtResource;
+    private javax.swing.JTextArea txtAppreciation;
+    private javax.swing.JTextField txtCode;
+    private javax.swing.JTextField txtCreated_At;
+    private javax.swing.JTextField txtDeadline;
+    private javax.swing.JTextArea txtDescription;
+    private javax.swing.JTextArea txtResource;
+    private javax.swing.JTextField txtScore;
     private javax.swing.JLabel txtStudentName;
-    private javax.swing.JLabel txtTittle;
+    private javax.swing.JTextField txtTittle;
     // End of variables declaration//GEN-END:variables
 }
